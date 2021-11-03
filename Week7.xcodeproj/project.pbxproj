@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		677139772732C4FB00F8494A /* ViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677139762732C4FB00F8494A /* ViewController+Extensions.swift */; };
+		6771397A2732C66D00F8494A /* DataTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677139792732C66D00F8494A /* DataTransfer.swift */; };
 		67D0D83127282265006AD130 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0D83027282265006AD130 /* AppDelegate.swift */; };
 		67D0D83327282265006AD130 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0D83227282265006AD130 /* SceneDelegate.swift */; };
 		67D0D83527282265006AD130 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0D83427282265006AD130 /* ViewController.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		677139762732C4FB00F8494A /* ViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extensions.swift"; sourceTree = "<group>"; };
+		677139792732C66D00F8494A /* DataTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTransfer.swift; sourceTree = "<group>"; };
 		67D0D82D27282265006AD130 /* Week7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Week7.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67D0D83027282265006AD130 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67D0D83227282265006AD130 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +43,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		677139752732C49800F8494A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				677139762732C4FB00F8494A /* ViewController+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		677139782732C59100F8494A /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				677139792732C66D00F8494A /* DataTransfer.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		6771397B2732C98900F8494A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				67D0D83627282265006AD130 /* Main.storyboard */,
+				67D0D83B27282266006AD130 /* LaunchScreen.storyboard */,
+				67D0D83927282266006AD130 /* Assets.xcassets */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6771397C2732CA0E00F8494A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				67D0D83427282265006AD130 /* ViewController.swift */,
+				67D0D84627283C54006AD130 /* NoteViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		67D0D82427282265006AD130 = {
 			isa = PBXGroup;
 			children = (
@@ -58,14 +97,13 @@
 		67D0D82F27282265006AD130 /* Week7 */ = {
 			isa = PBXGroup;
 			children = (
+				6771397C2732CA0E00F8494A /* Controller */,
+				6771397B2732C98900F8494A /* View */,
+				677139782732C59100F8494A /* Protocol */,
+				677139752732C49800F8494A /* Extensions */,
 				67D0D83027282265006AD130 /* AppDelegate.swift */,
 				67D0D83227282265006AD130 /* SceneDelegate.swift */,
-				67D0D83427282265006AD130 /* ViewController.swift */,
-				67D0D83627282265006AD130 /* Main.storyboard */,
-				67D0D83927282266006AD130 /* Assets.xcassets */,
-				67D0D83B27282266006AD130 /* LaunchScreen.storyboard */,
 				67D0D83E27282266006AD130 /* Info.plist */,
-				67D0D84627283C54006AD130 /* NoteViewController.swift */,
 			);
 			path = Week7;
 			sourceTree = "<group>";
@@ -140,7 +178,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6771397A2732C66D00F8494A /* DataTransfer.swift in Sources */,
 				67D0D84727283C54006AD130 /* NoteViewController.swift in Sources */,
+				677139772732C4FB00F8494A /* ViewController+Extensions.swift in Sources */,
 				67D0D83527282265006AD130 /* ViewController.swift in Sources */,
 				67D0D83127282265006AD130 /* AppDelegate.swift in Sources */,
 				67D0D83327282265006AD130 /* SceneDelegate.swift in Sources */,
