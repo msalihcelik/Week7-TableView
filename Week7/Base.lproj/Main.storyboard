@@ -47,7 +47,7 @@
                     <navigationItem key="navigationItem" id="ZVJ-Or-an9"/>
                     <connections>
                         <outlet property="tableView" destination="bub-1Y-eKi" id="6uF-73-fYb"/>
-                        <segue destination="JJI-xy-zKH" kind="show" identifier="toNoteVC" id="VV4-Im-TVD"/>
+                        <segue destination="JJI-xy-zKH" kind="show" identifier="toNoteVC" id="yOm-eN-T0n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
