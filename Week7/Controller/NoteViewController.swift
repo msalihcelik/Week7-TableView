@@ -7,29 +7,45 @@
 
 import UIKit
 
-class NoteViewController: UIViewController {
+protocol SecondViewControllerDelegate: NSObject {
+    func secondViewControllerWillPop(title: String, note: String , isEditMode: Bool)
+}
+
+final class NoteViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var noteTextField: UITextField!
-    var selectedTitle = ""
-    var selectedNote = ""
-    var delegate: SecondViewControllerDelegate?
+    weak var delegate: SecondViewControllerDelegate?
+    var isEditMode: Bool = false
+    var notes = [NoteModel]()
+    var selectedIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleTextField.text = selectedTitle
-        noteTextField.text = selectedNote
+        configureContents()
+    }
+    
+    private func configureContents() {
+        guard notes.count != 0 else { return }
+        titleTextField.text = notes[selectedIndex].title
+        noteTextField.text = notes[selectedIndex].note
     }
     
     @IBAction func saveButtonTapped(_ sender: Any) {
-        if (titleTextField.text?.isEmpty == true || noteTextField.text?.isEmpty == true) {
+        guard let titleText = titleTextField.text else { return }
+        guard let noteText = noteTextField.text else { return }
+        if (titleText.isEmpty || noteText.isEmpty) {
             let alert = UIAlertController(title: "Lütfen boş alan bırakmayınız!", message: "", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default)
             alert.addAction(okAction)
             self.present(alert, animated: true, completion: nil)
         } else {
-            delegate?.secondViewControllerWillPop(title: titleTextField.text!, note: noteTextField.text!)
-            self.dismiss(animated: true, completion: nil)
+            if isEditMode {
+                delegate?.secondViewControllerWillPop(title: titleTextField.text!, note: noteTextField.text!, isEditMode: true)
+            } else {
+                delegate?.secondViewControllerWillPop(title: titleTextField.text!, note: noteTextField.text!, isEditMode: false)
+            }
+            navigationController?.popViewController(animated: true)
         }
     }
     

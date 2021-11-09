@@ -7,25 +7,22 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    var titleArray = [String]()
-    var noteArray = [String]()
-    var selectedTitle = ""
-    var selectedNote = ""
+    var notes = [NoteModel]()
+    var selectedIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureContents()
     }
+    
     private func configureContents() {
         tableView.delegate = self
         tableView.dataSource = self
-        titleArray.append("Ekmek")
-        noteArray.append("2x ekmek al")
-        titleArray.append("Ödev")
-        noteArray.append("15. sayfa")
+        let model = NoteModel(title: "Ekmek", note: "2x ekmek al")
+        notes.append(model)
     }
     
     @IBAction func addNoteButtonTapped(_ sender: Any) {
@@ -39,38 +36,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "toNoteVC") {
             let destinationVC = segue.destination as! NoteViewController
-            destinationVC.selectedTitle = ""
-            destinationVC.selectedNote = ""
+            destinationVC.isEditMode = false
             destinationVC.delegate = self
         } else if (segue.identifier == "toNoteVCEdit") {
             let destinationVC = segue.destination as! NoteViewController
-            destinationVC.selectedTitle = selectedTitle
-            destinationVC.selectedNote = selectedNote
+            destinationVC.notes = notes
+            destinationVC.isEditMode = true
+            destinationVC.selectedIndex = selectedIndex
             destinationVC.delegate = self
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titleArray.count
+        return notes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = titleArray[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NotesTableViewCell
+        cell.titleLabel.text = notes[indexPath.row].title
+        cell.noteLabel.text = notes[indexPath.row].note
         return cell
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editButton = UITableViewRowAction(style: .normal, title: "Edit") { rowAction, indexPath in
-            self.selectedTitle = self.titleArray[indexPath.row]
-            self.selectedNote = self.noteArray[indexPath.row]
-            self.noteArray.remove(at: indexPath.row)
-            self.titleArray.remove(at: indexPath.row)
+            self.selectedIndex = indexPath.row
             self.performSegue(withIdentifier: "toNoteVCEdit", sender: nil)
         }
         let deleteButton = UITableViewRowAction(style: .default, title: "Delete") { rowAction, indexPath in
-            self.titleArray.remove(at: indexPath.row)
-            self.noteArray.remove(at: indexPath.row)
+            self.notes.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
         }
         deleteButton.backgroundColor = UIColor.brown
@@ -83,3 +77,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
 }
 
+extension ViewController: SecondViewControllerDelegate {
+
+    func secondViewControllerWillPop(title: String, note: String, isEditMode: Bool) {
+        if isEditMode {
+            let model = NoteModel(title: title, note: note)
+            self.notes[selectedIndex] = model
+        } else {
+            let model = NoteModel(title: title, note: note)
+            self.notes.insert(model, at: 0)
+        }
+    }
+    
+}
