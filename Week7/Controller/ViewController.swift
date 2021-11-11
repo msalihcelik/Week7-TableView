@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var notes = [NoteModel]()
@@ -29,10 +29,6 @@ final class ViewController: UIViewController, UITableViewDelegate, UITableViewDa
         performSegue(withIdentifier: Segue.toNoteVC, sender: nil)
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == Segue.toNoteVC) {
             let destinationVC = segue.destination as! NoteViewController
@@ -46,17 +42,26 @@ final class ViewController: UIViewController, UITableViewDelegate, UITableViewDa
             destinationVC.delegate = self
         }
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notes.count
+       
+}
+
+//MARK: - SecondViewControllerDelegate
+extension ViewController: SecondViewControllerDelegate {
+
+    func secondViewControllerWillPop(title: String, note: String, isEditMode: Bool) {
+        let model = NoteModel(title: title, note: note)
+        if isEditMode {
+            self.notes[selectedIndex] = model
+        } else {
+            self.notes.insert(model, at: 0)
+        }
+        self.tableView.reloadData()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NotesTableViewCell
-        cell.titleLabel.text = notes[indexPath.row].title
-        cell.noteLabel.text = notes[indexPath.row].note
-        return cell
-    }
+}
+
+//MARK: - UITableViewDelegate
+extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editButton = UITableViewRowAction(style: .normal, title: "Edit") { rowAction, indexPath in
@@ -73,16 +78,22 @@ final class ViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
 }
 
-extension ViewController: SecondViewControllerDelegate {
-
-    func secondViewControllerWillPop(title: String, note: String, isEditMode: Bool) {
-        let model = NoteModel(title: title, note: note)
-        if isEditMode {
-            self.notes[selectedIndex] = model
-        } else {
-            self.notes.insert(model, at: 0)
-        }
-        self.tableView.reloadData()
+//MARK: - UITableViewDataSource Methods
+extension ViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return notes.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NotesTableViewCell
+        cell.titleLabel.text = notes[indexPath.row].title
+        cell.noteLabel.text = notes[indexPath.row].note
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
     
 }
