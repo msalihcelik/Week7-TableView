@@ -32,8 +32,7 @@ final class NoteViewController: UIViewController {
     }
     
     @IBAction func saveButtonTapped(_ sender: Any) {
-        guard let titleText = titleTextField.text else { return }
-        guard let noteText = noteTextField.text else { return }
+        guard let titleText = titleTextField.text, let noteText = noteTextField.text else { return }
         if (titleText.isEmpty || noteText.isEmpty) {
             let alert = UIAlertController(title: "Lütfen boş alan bırakmayınız!", message: "", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default)

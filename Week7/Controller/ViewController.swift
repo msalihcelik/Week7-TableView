@@ -26,7 +26,7 @@ final class ViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func addNoteButtonTapped(_ sender: Any) {
-        performSegue(withIdentifier: "toNoteVC", sender: nil)
+        performSegue(withIdentifier: Segue.toNoteVC, sender: nil)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -34,11 +34,11 @@ final class ViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "toNoteVC") {
+        if (segue.identifier == Segue.toNoteVC) {
             let destinationVC = segue.destination as! NoteViewController
             destinationVC.isEditMode = false
             destinationVC.delegate = self
-        } else if (segue.identifier == "toNoteVCEdit") {
+        } else if (segue.identifier == Segue.toNoteVCEdit) {
             let destinationVC = segue.destination as! NoteViewController
             destinationVC.notes = notes
             destinationVC.isEditMode = true
@@ -61,7 +61,7 @@ final class ViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editButton = UITableViewRowAction(style: .normal, title: "Edit") { rowAction, indexPath in
             self.selectedIndex = indexPath.row
-            self.performSegue(withIdentifier: "toNoteVCEdit", sender: nil)
+            self.performSegue(withIdentifier: Segue.toNoteVCEdit, sender: nil)
         }
         let deleteButton = UITableViewRowAction(style: .default, title: "Delete") { rowAction, indexPath in
             self.notes.remove(at: indexPath.row)
@@ -71,22 +71,18 @@ final class ViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return [deleteButton, editButton]
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.tableView.reloadData()
-    }
-    
 }
 
 extension ViewController: SecondViewControllerDelegate {
 
     func secondViewControllerWillPop(title: String, note: String, isEditMode: Bool) {
+        let model = NoteModel(title: title, note: note)
         if isEditMode {
-            let model = NoteModel(title: title, note: note)
             self.notes[selectedIndex] = model
         } else {
-            let model = NoteModel(title: title, note: note)
             self.notes.insert(model, at: 0)
         }
+        self.tableView.reloadData()
     }
     
 }
