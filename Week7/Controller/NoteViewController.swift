@@ -40,9 +40,9 @@ final class NoteViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
         } else {
             if isEditMode {
-                delegate?.secondViewControllerWillPop(title: titleTextField.text!, note: noteTextField.text!, isEditMode: true)
+                delegate?.secondViewControllerWillPop(title: titleText, note: noteText, isEditMode: true)
             } else {
-                delegate?.secondViewControllerWillPop(title: titleTextField.text!, note: noteTextField.text!, isEditMode: false)
+                delegate?.secondViewControllerWillPop(title: titleText, note: noteText, isEditMode: false)
             }
             navigationController?.popViewController(animated: true)
         }
